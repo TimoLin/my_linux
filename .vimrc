@@ -17,6 +17,7 @@ runtime! debian.vim
 " Vim5 and later versions support syntax highlighting. Uncommenting the next
 " line enables syntax highlighting by default.
 
+set nocompatible 
 filetype plugin indent on
 
 "
@@ -72,7 +73,6 @@ set nobackup
 set nu!
 
 ""vundle plugin manager
-set nocompatible 
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()  
@@ -94,6 +94,9 @@ Plugin 'honza/vim-snippets'
 Plugin 'vim-scripts/minibufexpl.vim'
 Plugin 'vim-scripts/graywh'
 Plugin 'vim-scripts/compilergfortran.vim'
+Plugin 'vim-latex/vim-latex'
+Plugin 'VimIM'
+"Plugin 'ybian/smartim'
 ""vundle end
 call vundle#end()
 "filetype on
@@ -149,4 +152,4 @@ set lines=60 columns=109
 :command W  w
 :command Q  q
 
-
+let g:tex_indent_items = 0
