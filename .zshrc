@@ -13,10 +13,25 @@ export ZSH=$HOME/.oh-my-zsh
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
-#ZSH_THEME="ys"
+ZSH_THEME="ys"
 #ZSH_THEME="agnoster"
 #ZSH_THEME="gianu"
-ZSH_THEME="maran"
+#ZSH_THEME="maran"
+
+# theme "ys" config
+#PROMPT="
+#%{$terminfo[bold]$fg[blue]%}%{$reset_color%}\
+#%(#,%{$bg[yellow]%}%{$fg[black]%}%n%{$reset_color%},%{$fg[cyan]%}%n)\
+#%{$fg[green]%}@\
+#%{$fg[green]%}%m\
+#%{$fg[white]%}:\
+#%{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%}\
+#${hg_info}\
+#${git_info}\
+ #\
+#%{$fg[white]%}[%*] $exit_code
+#%{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
+
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
 # cause zsh load theme from this variable instead of
