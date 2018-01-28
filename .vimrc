@@ -96,6 +96,7 @@ Plugin 'vim-scripts/graywh'
 Plugin 'vim-scripts/compilergfortran.vim'
 Plugin 'vim-latex/vim-latex'
 Plugin 'VimIM'
+Plugin 'fcitx.vim'
 "Plugin 'ybian/smartim'
 ""vundle end
 call vundle#end()
@@ -153,3 +154,4 @@ set lines=60 columns=109
 :command Q  q
 
 let g:tex_indent_items = 0
+
