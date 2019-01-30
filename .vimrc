@@ -18,21 +18,62 @@ runtime! debian.vim
 " line enables syntax highlighting by default.
 
 set nocompatible 
-filetype plugin indent on
+"filetype plugin on
+"filetype plugin indent on
 
 "
 set list
-set listchars=tab:\|\
+set listchars=tab:\┊\˰,
+"set ts=2 sw=2 et
+"let g:indent_guides_start_level=2
 "
-
+"set listchars=tab:\┊\ ,
+"fortran set up
+let s:extfname = expand("%:e")
+if s:extfname ==? "f90"
+  let fortran_free_source=1
+  unlet! fortran_fixed_source
+else
+  let fortran_fixed_source=1
+  unlet! fortran_free_source
+endif
+"let fortran_have_tabs=1
+let fortran_do_enddo=1
+let fortran_more_precise=1
+let SebuFortranGetFreeIndent=1
+"let fortran_have_tabs=1
 "let fortran_fold=1
 "set foldmethod=syntax
 "set foldlevelstart=99
 
+" auto insert mode for brackets
+if s:extfname != "tex"
+	inoremap () ()<++><ESC>4hi
+	inoremap {} {}<++><ESC>4hi
+	inoremap [] []<++><ESC>4hi
+	inoremap <F5> ! (*  *)<++><ESC>6hi
+endif
 
+" turn off latex equation preview
+let g:tex_conceal = ""
+
+filetype off
 if has("syntax")
   syntax on
 endif
+
+filetype on
+filetype indent on
+filetype plugin on
+
+" indentLine plug
+"let g:indentLine_fileType = ['tex']
+"let g:indentLine_enabled
+"let g:indentLine_leadingSpaceEnabled = 1
+"let g:indentLine_char = '┊'
+"let g:indentLine_leadingSpaceChar = '¦'
+"let g:indentLine_char = '.'
+
 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
@@ -63,7 +104,7 @@ set hidden		" Hide buffers when they are abandoned
 
 " Source a global configuration file if available
 if filereadable("/etc/vim/vimrc.local")
-  source /etc/vim/vimrc.local
+	source /etc/vim/vimrc.local
 endif
 
 "no backup file
@@ -72,35 +113,48 @@ set nobackup
 "显示行号
 set nu!
 
-""vundle plugin manager
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()  
-"plugins mangaged by Vundle should be placed between vundle#begin() and vundle#end()  
-"let Vundle manage Vundle  
-"required!   
-Plugin 'VundleVim/Vundle.vim'  
-Plugin 'scrooloose/nerdtree'
-Plugin 'vim-scripts/winmanager'
-Plugin 'vim-scripts/Indent-Guides'
-Plugin 'vim-scripts/comments.vim'
-Plugin 'vim-scripts/grep.vim'
-Plugin 'vim-scripts/taglist.vim'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'jlanzarotta/bufexplorer'
-Plugin 'Shougo/neocomplete.vim'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'honza/vim-snippets'
-Plugin 'vim-scripts/minibufexpl.vim'
-Plugin 'vim-scripts/graywh'
-Plugin 'vim-scripts/compilergfortran.vim'
-Plugin 'vim-latex/vim-latex'
-Plugin 'VimIM'
-Plugin 'fcitx.vim'
-"Plugin 'ybian/smartim'
-""vundle end
-call vundle#end()
-"filetype on
+" indentLine config
+if s:extfname ==? "f"
+	let g:indentLine_startColumn = 7
+endif
+
+autocmd FileType fortran setlocal et sta sw=2 
+"set shiftwidth=2
+
+
+call plug#begin('~/.vim/plugged')
+Plug 'scrooloose/nerdtree'
+Plug 'vim-scripts/winmanager' 
+"Plug 'vim-scripts/Indent-Guides'
+Plug 'vim-scripts/comments.vim'
+Plug 'vim-scripts/grep.vim'
+Plug 'vim-scripts/taglist.vim'
+"Plug 'nathanaelkane/vim-indent-guides'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'Shougo/neocomplete.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'honza/vim-snippets' "auto complete
+"Plug 'vim-scripts/minibufexpl.vim'
+Plug 'vim-scripts/graywh' "color theme
+"Plug 'vim-scripts/fortran.vim'
+Plug 'vim-scripts/compilergfortran.vim'
+Plug 'vim-latex/vim-latex'
+Plug 'vim-scripts/VimIM'
+Plug 'vim-scripts/fcitx.vim'
+Plug 'vim-scripts/CSApprox' " using gvim theme under terminal vim
+Plug 'vim-airline/vim-airline'
+Plug 'godlygeek/tabular' "code alignment
+Plug 'powerline/powerline'
+Plug 'vim-airline/vim-airline-themes'
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'rudrab/vimf90'
+"Plug 'bijancn/free-fortran.vim'
+Plug 'TimoLin/indentLine'
+"Plug 'ybian/smartim'
+call plug#end() 
+
+filetype on
+filetype plugin on
 filetype plugin indent on 
 
 colo graywh
@@ -121,11 +175,11 @@ let g:NERDTree_title="[NERDTree]"
 let g:winManagerWindowLayout='FileExplorer|TagList|BufExplorer'
 let g:winManagerWidth=35  
 function! NERDTree_Start()  
-    exec 'NERDTree'  
+	exec 'NERDTree'  
 endfunction  
   
 function! NERDTree_IsValid()  
-    return 1  
+	return 1  
 endfunction  
 
 nmap wm :WMToggle<CR>
@@ -136,22 +190,41 @@ nmap wm :WMToggle<CR>
 "智能补全"
 let g:NeoComplCache_EnableAtStartup = 1
 
-"插入当前时间，设置快捷键F5"
-:nnoremap <F5> "=strftime("20%y/%m/%d %H:%M:%S  zt")<CR>gP
-:inoremap <F5> <C-R>=strftime("20%y/%m/%d %H:%M:%S  zt")<CR>
+"插入当前时间，设置快捷键F6"
+:nnoremap <F6> "=strftime("20%y/%m/%d %H:%M:%S  zt")<CR>gP
+:inoremap <F6> <C-R>=strftime("20%y/%m/%d %H:%M:%S  zt")<CR>
 
-:inoremap <F6> <C-R>=strftime("WRITE(u) ")<CR>
+":inoremap <F6> <C-R>=strftime("WRITE(u) ")<CR>
 
 
 "打开窗口的大小
-set lines=60 columns=109
+"set lines=60 columns=109
 "end
 
 " mapped some annoying captial-sensitive command
 :command WQ wq
 :command Wq wq
 :command W  w
-:command Q  q
+":command Q  q
+:command-bang Q q<bang>
 
-let g:tex_indent_items = 0
+"let g:tex_indent_items = 1
+" off latex cod fold
+"let g:Tex_FoldedSections     = ""
+"let g:Tex_FoldedEnvironments = ""
+"let g:Tex_FoldedMisc         = ""
+let g:tex_flavor             = "latex"
+let g:Tex_Env_frame="\\begin{frame}{<+title+>}\<cr><++>\<cr>\\end{frame}<++>"
+let g:Tex_Env_subfigure="\\begin{subfigure}{<+width+>}\<cr>\\centering\<cr>\\includegraphics[<+width+>]{<+figure+>}\<cr>\\end{subfigure}<++>"
+"set grepprg=grep\ -nH\ $*
 
+
+
+"vim-airline smart tab line 
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10  
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+nnoremap <C-tab> :bn<CR>
+nnoremap <C-s-tab> :bp<CR>
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'
