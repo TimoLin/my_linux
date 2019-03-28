@@ -17,25 +17,22 @@ runtime! debian.vim
 " Vim5 and later versions support syntax highlighting. Uncommenting the next
 " line enables syntax highlighting by default.
 
-set nocompatible 
+set nocompatible
 "filetype plugin on
 "filetype plugin indent on
 
 "
 set list
 set listchars=tab:\┊\˰,
-"set ts=2 sw=2 et
-"let g:indent_guides_start_level=2
-"
-"set listchars=tab:\┊\ ,
+
 "fortran set up
 let s:extfname = expand("%:e")
 if s:extfname ==? "f90"
-  let fortran_free_source=1
-  unlet! fortran_fixed_source
+    let fortran_free_source=1
+    unlet! fortran_fixed_source
 else
-  let fortran_fixed_source=1
-  unlet! fortran_free_source
+    let fortran_fixed_source=1
+    unlet! fortran_free_source
 endif
 "let fortran_have_tabs=1
 let fortran_do_enddo=1
@@ -48,10 +45,10 @@ let SebuFortranGetFreeIndent=1
 
 " auto insert mode for brackets
 if s:extfname != "tex"
-	inoremap () ()<++><ESC>4hi
-	inoremap {} {}<++><ESC>4hi
-	inoremap [] []<++><ESC>4hi
-	inoremap <F5> ! (*  *)<++><ESC>6hi
+    inoremap () ()<++><ESC>4hi
+    inoremap {} {}<++><ESC>4hi
+    inoremap [] []<++><ESC>4hi
+    inoremap <F5> ! (*  *)<++><ESC>6hi
 endif
 
 " turn off latex equation preview
@@ -59,21 +56,12 @@ let g:tex_conceal = ""
 
 filetype off
 if has("syntax")
-  syntax on
+    syntax on
 endif
 
 filetype on
 filetype indent on
 filetype plugin on
-
-" indentLine plug
-"let g:indentLine_fileType = ['tex']
-"let g:indentLine_enabled
-"let g:indentLine_leadingSpaceEnabled = 1
-"let g:indentLine_char = '┊'
-"let g:indentLine_leadingSpaceChar = '¦'
-"let g:indentLine_char = '.'
-
 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
@@ -104,7 +92,7 @@ set hidden		" Hide buffers when they are abandoned
 
 " Source a global configuration file if available
 if filereadable("/etc/vim/vimrc.local")
-	source /etc/vim/vimrc.local
+    source /etc/vim/vimrc.local
 endif
 
 "no backup file
@@ -115,16 +103,19 @@ set nu!
 
 " indentLine config
 if s:extfname ==? "f"
-	let g:indentLine_startColumn = 7
+    let g:indentLine_startColumn = 7
 endif
 
-autocmd FileType fortran setlocal et sta sw=2 
+autocmd FileType fortran setlocal et sta sw=2
+autocmd FileType vim setlocal et sta sw=4 sts=4
+autocmd FileType c setlocal et sta sw=4 sts=4
+autocmd FileType tex setlocal tabstop=4
 "set shiftwidth=2
 
 
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
-Plug 'vim-scripts/winmanager' 
+Plug 'vim-scripts/winmanager'
 "Plug 'vim-scripts/Indent-Guides'
 Plug 'vim-scripts/comments.vim'
 Plug 'vim-scripts/grep.vim'
@@ -150,37 +141,38 @@ Plug 'vim-airline/vim-airline-themes'
 "Plug 'rudrab/vimf90'
 "Plug 'bijancn/free-fortran.vim'
 Plug 'TimoLin/indentLine'
+Plug 'HendrikPetertje/vimify'
 "Plug 'ybian/smartim'
-call plug#end() 
+call plug#end()
 
 filetype on
 filetype plugin on
-filetype plugin indent on 
+filetype plugin indent on
 
 colo graywh
 
 "快捷键ctrl+F12,进入代码根目录，打开vim，按下快捷键自动生成tags并默认自动读取当前目录下的tags
-map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>  
+map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "minibuf----
-let g:miniBufExplMapWindowNavVim = 1   
-"let g:miniBufExplMapWindowNavArrows = 1   
-let g:miniBufExplMapCTabSwitchBufs = 1   
-"let g:miniBufExplModSelTarget = 1  
-let g:miniBufExplMoreThanOne=0  
+let g:miniBufExplMapWindowNavVim = 1
+"let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+"let g:miniBufExplModSelTarget = 1
+let g:miniBufExplMoreThanOne=0
 "end----
 
 "winmanager----
-let g:NERDTree_title="[NERDTree]"  
+let g:NERDTree_title="[NERDTree]"
 let g:winManagerWindowLayout='FileExplorer|TagList|BufExplorer'
-let g:winManagerWidth=35  
-function! NERDTree_Start()  
-	exec 'NERDTree'  
-endfunction  
-  
-function! NERDTree_IsValid()  
-	return 1  
-endfunction  
+let g:winManagerWidth=35
+function! NERDTree_Start()
+    exec 'NERDTree'
+endfunction
+
+function! NERDTree_IsValid()
+    return 1
+endfunction
 
 nmap wm :WMToggle<CR>
 "end----
@@ -205,26 +197,24 @@ let g:NeoComplCache_EnableAtStartup = 1
 :command WQ wq
 :command Wq wq
 :command W  w
-":command Q  q
 :command-bang Q q<bang>
+:nnoremap K k
 
-"let g:tex_indent_items = 1
-" off latex cod fold
-"let g:Tex_FoldedSections     = ""
-"let g:Tex_FoldedEnvironments = ""
-"let g:Tex_FoldedMisc         = ""
-let g:tex_flavor             = "latex"
+let g:tex_flavor = "latex"
 let g:Tex_Env_frame="\\begin{frame}{<+title+>}\<cr><++>\<cr>\\end{frame}<++>"
 let g:Tex_Env_subfigure="\\begin{subfigure}{<+width+>}\<cr>\\centering\<cr>\\includegraphics[<+width+>]{<+figure+>}\<cr>\\end{subfigure}<++>"
-"set grepprg=grep\ -nH\ $*
 
-
-
-"vim-airline smart tab line 
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10  
+"vim-airline smart tab line
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 nnoremap <C-tab> :bn<CR>
 nnoremap <C-s-tab> :bp<CR>
-let g:airline_theme='solarized'
-let g:airline_solarized_bg='dark'
+let g:airline_theme='bubblegum'
+"let g:airline_solarized_bg='dark'
+
+"Spotify Lyrics
+let g:user_name="780apqgor2pffti3dc3ljj6oz"
+let g:client_id="0879905d1e16424aa7a8f2d970159670"
+let g:client_secret="ed07f900602f485f9a7d653eae460a20"
+
