@@ -13,8 +13,8 @@ export ZSH=$HOME/.oh-my-zsh
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
-#ZSH_THEME="ys"
-ZSH_THEME="agnoster"
+ZSH_THEME="ys"
+#ZSH_THEME="agnoster"
 #ZSH_THEME="gianu"
 #ZSH_THEME="maran"
 
@@ -47,7 +47,7 @@ ZSH_THEME="agnoster"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
+# DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -84,7 +84,6 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(
   git
   zsh-syntax-highlightinga
-  autojump
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -116,10 +115,8 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
-
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && . ~/.autojump/etc/profile.d/autojump.sh
-#
+
 
 #settings migrated from .bashrc
 #includign alias and software paths
@@ -134,31 +131,24 @@ alias Ls='ls'
 alias CD='cd'
 
 #setting for delta
-#export deltaHome=$HOME/delta
-#export deltaCalc=$deltaHome/calc
-#export deltaBin=$deltaHome/bin
-#export DELTA_ARCH=`$deltaBin/delta_arch`
+export deltaHome=$HOME/delta
+export deltaCalc=$deltaHome/calc
+export deltaBin=$deltaHome/bin
+export DELTA_ARCH=`$deltaBin/delta_arch`
 ##delta tools
-#export PATH=/home/zt/delta/tools/bin:$PATH
+export PATH=/home/zt/delta/tools/bin:$PATH
 
 #openmpi
-#export PATH=/usr/software/openmpi/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export PATH=/usr/software/openmpi/bin:$PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/software/openmpi/lib
 
-#tecplot
-export TEC_360_2017=/usr/local/tecplot/360ex_2017r2/bin
-export PATH=$TEC_360_2017/bin:$PATH
+#tecplot 2010
+export TEC_360_2010=/usr/software/tecplot
+export PATH=$TEC_360_2010/bin:$PATH
 export TECPHYFILE=./.tecplot.phy
 export XLIB_SKIP_ARGB_VISUALS=1
 #tecplot 2017
 alias tec2017='/usr/local/tecplot/360ex_2017r2/bin/tec360'
-
-alias tec18='/opt/tecplot/360ex_2018r2/bin/tec360'
-#export LD_LIBRARY_PATH="/usr/local/tecplot/360ex_2018r1/bin:/usr/local/tecplot/360ex_2018r1/bin/sys${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-
-#ensight
-export CEI_HOME="/opt/CEI"
-export PATH=$CEI_HOME/bin:$PATH
 
 #FlameMaster
 source ~/FlameMaster/Bin/bin/Source.zsh
@@ -196,87 +186,22 @@ alias icem18="/usr/ansys_inc/v182/icemcfd/linux64_amd/bin/icemcfd"
 ##Fluent 18.2
 export PATH=/usr/ansys_inc/v182/fluent/bin:$PATH
 
-alias icem19="/home/zt/software/ansys_inc/v191/icemcfd/linux64_amd/bin/icemcfd"
-alias ansys19='export PATH=/home/zt/software/ansys_inc/v191/fluent/bin:$PATH'
-
 #ArchiSteamFarm
-alias asf="mono ~/software/ASF/ASF.exe"
-
-#minecraft
-#alias mc="java -jar ~/software/minecraft/launcher.jar"
-#
+alias asf="~/Documents/software/asf/ArchiSteamFarm"
 #SSR
-ssrdir='/home/zt/Documents/software/shadowsocksr/shadowsocks'
-alias ssr="python $ssrdir/local.py -c $ssrdir/../do.json"
+ssrdir='/home/zt/Documents/software/ss/ssr/shadowsocksr/shadowsocks'
+alias ssr="python $ssrdir/local.py -c $ssrdir/../../ssr.json"
 
 #OpenFOAM
-#alias srceof="source ~/OpenFOAM/OpenFOAM-2.3.0/etc/bashrc && export LIB_FLAMELET_SRC=~/OpenFOAM/flameletFoam/src/"
-alias srcof23="source ~/OpenFOAM/OpenFOAM-2.3.0/etc/bashrc"
-#alias srcof40="source /opt/openfoam6/etc/bashrc"
-#alias srcfe40="source ~/OpenFOAM/foam-extend-4.0/etc/zshrc"
+alias sourceof="source ~/OpenFOAM/OpenFOAM-2.3.0/etc/bashrc && export LIB_FLAMELET_SRC=~/OpenFOAM/flameletFoam/src/"
 
 #youtube-dl
 alias ytf='youtube-dl --list-formats'
 alias ytd='youtube-dl -f'
 
 #texlive-2017
-export PATH=/usr/local/texlive/2018/bin/x86_64-linux:$PATH
-export MANPATH=/usr/local/texlive/2018/texmf-dist/doc/man:$MANPATH
+export PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
+export MANPATH=/usr/local/texlive/2017/texmf-dist/doc/man:$MANPATH
 
 #gfortran compiler short
 alias gfm='gfortran -mcmodel=medium'
-
-#terminal 256 color support
-if [ -e /lib/terminfo/x/xterm-256color ]; then
-#debian在/lib/terminfo/x/xterm-256color
-        export TERM='xterm-256color'
-else
-        export TERM='xterm-color'
-fi
-
-#let gitkraken open the current git work dir of the terminal
-alias kraken='gitkraken -p $(git rev-parse --show-toplevel) '
-
-#converge CFD
-#1.mpich
-#
-#alias srcCon='export PATH=/home/zt/Documents/software/mpich/bin:$PATH;export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/zt/Documents/software/mpich/lib'
-#CONVERGE_ROOT='/opt/converge_2.3'
-#CONVERGE_LICENSE='/opt/converge_2.3/license/license.lic'
-#export PATH=/opt/converge_2.3.0/converge-2.3.19/l_x86_64/bin/:$PATH
-#alias converge='mpirun /opt/converge_2.3.0/converge-2.3.19/l_x86_64/bin/converge-2.3.19-mpich2'
-#export RLM_LICENSE=5053@127.0.0.1
-#export LD_LIBRARY_PATH="/opt/CONVERGE_Studio/v2.3/lib64:$LD_LIBRARAY_PATH"
-export LD_LIBRARY_PATH="/opt/CONVERGE_Studio/v2.3/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-
-alias converge='/opt/CONVERGE_Studio/v2.3/bin/CONVERGE_Studio_bin'
-#add ifort and icc
-#add  ifort & icc
-#source /home/zt/software/intel/compilers_and_libraries_2018.0.128/linux/bin/ifortvars.sh intel64
-#source /home/zt/software/intel/compilers_and_libraries_2018.0.128/linux/bin/iccvars.sh intel64
-#end ifort & icc
-#
-
-#pointwise
-alias pointwise="/home/zt/software/Pointwise/PointwiseV18.1R1/pointwise"
-
-#chemkin
-alias srcChemkin='~/software/reaction/chemkin15151_linuxx8664/bin/chemkinpro_setup.ksh && export PATH=~/software/reaction/chemkin15151_linuxx8664/bin/:$PATH'
-
-#cantera
-alias srcCantera='source pathtowkdir/SVNCANTERA211/INSTALL_DIR/bin/setup_cantera'
-
-alias gambit='~/software/Fluent.Inc/bin/gambit'
-
-alias of231='source $HOME/OpenFOAM/OpenFOAM-2.3.1/etc/bashrc WM_NCOMPPROCS=4 WM_MPLIB=SYSTEMOPENMPI; export WM_CC=gcc-5; export WM_CXX=g++-5'
-
-
-alias of5='export PATH=/usr/bin/:$PATH; source /opt/openfoam5/etc/bashrc '
-
-
-# python path for some python module installation
-export PYTHONPATH=$PYTHONPATH:/home/zt/software/python-lib/lib/python3.6/site-packages
-
-# star-ccm+
-CDLMD_LICENSE_FILE='/home/zt/software/CD-adapco/13.06.012-R8/license.dat'
-alias star='/home/zt/software/CD-adapco/13.06.012-R8/STAR-CCM+13.06.012-R8/star/bin/starccm+'
