@@ -14,7 +14,9 @@ enable_bbr() {
 deploy_ssr(){
     git clone https://github.com/shadowsocksr-backup/shadowsocksr
 
-    wget https://gist.githubusercontent.com/TimoLin/47bca826b66801c3cc391b66622b7876/raw/6c5057c0076518f08ba5807ee057687bae55d9e9/config.json
+    wget https://github.com/TimoLin/my_linux/blob/master/ssr.json
+
+    wget https://github.com/TimoLin/my_linux/blob/master/startSSR.sh
 
     port1=`random`
     pass1=`openssl rand -hex 10`
