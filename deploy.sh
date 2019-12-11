@@ -29,7 +29,7 @@ deploy_ssr(){
     sed -e "s/@PORT1/$port1/g" -e "s/@PASS1/$pass1/g" \
         -e "s/@PORT2/$port2/g" -e "s/@PASS2/$pass2/g" \
         -e "s/@PORT3/$port3/g" -e "s/@PASS3/$pass3/g" \
-        -e "s/@PORT4/$port4/g" -e "s/@PASS4/$pass4/g" ssr.json > ssr.json
+        -e "s/@PORT4/$port4/g" -e "s/@PASS4/$pass4/g" ssr.json > do.json
     cat ssr.json
     python ~/shadowsocksr/shadowsocks/server.py -c ~/ssr.json -d start
 
