@@ -14,9 +14,9 @@ enable_bbr() {
 deploy_ssr(){
     git clone https://github.com/shadowsocksr-backup/shadowsocksr
 
-    wget https://github.com/TimoLin/my_linux/blob/master/ssr.json
+    wget https://raw.githubusercontent.com/TimoLin/my_linux/master/ssr.json
 
-    wget https://github.com/TimoLin/my_linux/blob/master/startSSR.sh
+    wget https://raw.githubusercontent.com/TimoLin/my_linux/master/startSSR.sh
 
     port1=`random`
     pass1=`openssl rand -hex 10`
@@ -29,7 +29,7 @@ deploy_ssr(){
     sed -e "s/@PORT1/$port1/g" -e "s/@PASS1/$pass1/g" \
         -e "s/@PORT2/$port2/g" -e "s/@PASS2/$pass2/g" \
         -e "s/@PORT3/$port3/g" -e "s/@PASS3/$pass3/g" \
-        -e "s/@PORT4/$port4/g" -e "s/@PASS4/$pass4/g" config.json > ssr.json
+        -e "s/@PORT4/$port4/g" -e "s/@PASS4/$pass4/g" ssr.json > ssr.json
     cat ssr.json
     python ~/shadowsocksr/shadowsocks/server.py -c ~/ssr.json -d start
 
@@ -42,7 +42,7 @@ deploy_v2ray(){
 
 main(){
     apt update
-    apt install -y libsodium-dev python
+    apt install -qq -y libsodium-dev python
     
     enable_bbr
 
