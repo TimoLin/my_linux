@@ -32,7 +32,6 @@ deploy_ssr(){
         -e "s/@PORT4/$port4/g" -e "s/@PASS4/$pass4/g" ssr.json > do.json
     cat do.json
     python ~/shadowsocksr/shadowsocks/server.py -c ~/do.json -d start
-
 }
 
 deploy_v2ray(){
