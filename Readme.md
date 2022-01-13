@@ -30,10 +30,107 @@ socks4 127.0.0.1 9095
 socks5 127.0.0.1 10808
 ```
 ### 3.3 VIM
-VIM-Plug
+#### 3.3.1 VIM-Plug
 ```sh
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 # Copy .vimrc to $HOME
 ```
+#### 3.3.2 coc.nvim
+(1) Update vim to 8.2
+```sh
+sudo add-apt-repository ppa:jonathonf/vim
+sudo apt update
+sudo apt install vim
+```
+(2) Install Prerequisites
+```sh
+# C/C++ lsp 
+sudo snap install ccls
+sudo apt install bear 
+# Fortran lsp
+pip3 install fortran-language-server 
+# VIM coc-plugins
+# :CocInstall coc-pyright
+```
+(3) C/C++ generate `compile_commands.json`
+1. For projects using `cmake` like `FlameMaster`
+    ```sh
+    # Recompile with `-DCMAKE_EXPORT_COMPILE_COMMANDS=1 option`
+    cmake ../Repository -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+    cmake --build . --parallel --target install --config Release
+    cp compile_commands.json ../Repository/
+    ```
+2. For projects using `make` like `OpenFOAM`
 
+   See [this tutorial](https://openfoamwiki.net/index.php/HowTo_Use_OpenFOAM_with_Visual_Studio_Code).
+
+   Modify OpenFOAM-2.3.1/wmake/wmake:
+   ```diff
+    +#------------------------------------------------------------------------------
+    +# check if bear is installed and we are not already running under bear
+    +#------------------------------------------------------------------------------
+    +
+    +if [ -z "${RUNNING_UNDER_BEAR}" ] ; then
+    +    if ! bear --version > /dev/null ; then
+    +        echo "WARNING: bear is not installed -> There will be no compile_commands.json output." 1>&2
+    +    elif printf '%s\n%s\n' "bear 3.0.0" "$(bear --version)" | sort -V -C ; then
+    +        #bear version >= 3.0.0
+    +        export RUNNING_UNDER_BEAR=true
+    +        mkdir -p $FOAM_LIBBIN
+    +        bear --append --output $FOAM_LIBBIN/../compile_commands.json -- wmake $@
+    +        exit $?
+    +    elif printf '%s\n%s\n' "bear 2.0.0" "$(bear --version)" | sort -V -C ; then
+    +        #bear version >= 2.0.0
+    +        export RUNNING_UNDER_BEAR=true
+    +        mkdir -p $FOAM_LIBBIN
+    +        bear --append -o $FOAM_LIBBIN/../compile_commands.json wmake $@
+    +        exit $?
+    +    else
+    +        echo "WARNING: bear version is below 2.0.0 -> There will be no compile_commands.json output." 1>&2
+    +    fi
+    +fi
+    
+    ```
+
+   Add script [`vscode-settings`](https://develop.openfoam.com/Development/openfoam/-/blob/a50047bbcc9ee270ebddd6e95ea7d0e01f2a525f/bin/tools/vscode-settings) to OpenFOAM-2.3.1/bin/tools.
+
+   Generate VSCode setting files:
+   ```sh
+   cd $WM_PROJECT_DIR
+   mkdir .vscode
+   ./bin/tools/vscode-setting > .vscode/settings.json
+   # Clean OpenFOAM installation
+   wclean all
+   # Re-build
+   ./Allwmake
+   ```
+   Create softlink for `VIM`/`coc.nvim`:
+   ```sh
+   cd $WM_PROJECT_DIR
+   ln -s ~/OpenFOAM/OpenFOAM-2.3.1/platforms/linux64GccDPOpt/compile_commands.json ./compile_commands.json
+   ```
+(4) Appendix:
+1. `coc-settings.json` under `~/.vim`:
+    ```json
+    {
+        "languageserver": {
+            "ccls": {
+                "command": "ccls",
+                "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+                "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".root"],
+                "initializationOptions": {
+                    "cache": {
+                        "directory": ".cache/ccls"
+                    },
+                    "highlight": {"lsRanges": true }
+                }
+            },
+            "fortran": {
+                "command": "fortls",
+                "filetypes": ["fortran"],
+                "rootPatterns": [".fortls", ".git/"]
+            }
+    }
+    ```
+  
