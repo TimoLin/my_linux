@@ -17,6 +17,10 @@ Edit `/etc/fstab`. Add the following line to the end:
 ```config
 /mn/iso/Centos-7-X86_64-Everything-2009.iso /mnt/yum iso9660 loop,defaults 0 0
 ```
+Mount the mirror:
+```
+mount /mnt/yum
+```
 4. Modify source list files
 Move all files in `/etc/yum.repo.d` to backup
 ```sh
