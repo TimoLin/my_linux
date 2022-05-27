@@ -66,4 +66,24 @@ vncserver
 VNC Server: 192.168.1.31:1
 Name : Bay31
 ```
+## Software installation
+### 1. Ansys Fluent
+1.1. Prerequisites
+```
+yum install glibc.i686 glib2.i686 bzip2-lib-s.i686 libpng.i686 libtiff.i686 libXft.i686 libXxf86vm.i686 sssd-client.i686 libpng12 libpng12.i686 libXp libXp.i686 libXp openmotif zlib openmpi
+```
+1.2 Install Ansys without License server
+1.3 Copy `Cr**k` files to the installation directory
+1.4 Test if `Fluent` works properly.
+### 2. Matlab
+### 3. OpenFOAM
+3.1 Prerequisites
+```
+yum groupinstall 'Development Tools' 
+yum install openmpi openmpi-devel zlib-devel gstreamer-plugins-base-devel \
+libXext-devel libGLU-devel libXt-devel libXrender-devel libXinerama-devel libpng-devel \
+libXrandr-devel libXi-devel libXft-devel libjpeg-turbo-devel libXcursor-devel \
+readline-devel ncurses-devel python python-devel cmake qt-devel qt-assistant \
+mpfr-devel gmp-devel
 
+```
