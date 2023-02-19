@@ -1,2 +1,4 @@
 # vim
 *.swp
+
+script/changeMonitor.sh
