@@ -134,3 +134,57 @@ pip3 install fortran-language-server
     }
     ```
   
+### 3.4 Remote Desktop (Zerotier+VNC)
+#### 3.4.1 Zerotier
+Follow these steps or [this tutorial](https://zhuanlan.zhihu.com/p/422171986)
+- Create an account at [Zerotier](https://www.zerotier.com/)
+- Create A Network and copy the Network ID
+- Install [Zerotier clients](https://www.zerotier.com/download) on your computers. Here I've a Linux workstation running Ubuntu 18.04 and a laptop running Windows 10
+    - For Linux: 
+      ```
+      sudo zerotier-cli join YOUR_NETWORK_ID
+      ```
+    - For Windows:
+      Right click the zerotier tray icon and Join Network.
+- Autorize these two devices in the zerotier web-ui. You can see the virtual IP address of each device.
+
+#### 3.4.2 Install vnc-server on Ubuntu 18.04
+(1) Install packages
+```
+# Packages
+sudo apt install tigervnc-standalone-server tigervnc-xorg-extension tigervnc-viewer
+```
+(2) Set the vnc password
+```
+tigervncpasswd
+```
+(3) Set-up vnc desktop environment  
+Create `~/.vnc/xstartup` and paste the following content to it. (I have gnome desktop installed.)
+```
+#!/bin/sh
+# Start Gnome 3 Desktop 
+[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+vncconfig -iconic &
+dbus-launch --exit-with-session gnome-session &
+```
+(4) Start vnc-server and listening from anywhere
+```
+tigervncserver -localhost no
+```
+(5) Check the vnc server port
+```
+tigervncserver -list
+```
+For example, `:1` is the port which is used to connect to the server in the viewer's side.
+```
+TigerVNC server sessions:
+
+X DISPLAY #	PROCESS ID
+:1		9332
+```
+#### 3.4.3 Install vnc-viewer at Windows 10  
+- Download and install [Real VNC](https://www.realvnc.com/en/connect/download/viewer/)  
+- Click `File`->`New connection` and input the IP address of Ubuntu at Zerotier network. 
+  For example: `192.168.29.110:1`. `:1` stands for the port of the vnc server.
+
