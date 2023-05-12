@@ -40,7 +40,7 @@ fi
 if (( $EUID != 0 )); then
     cd $HOME
     # get bashrc
-    wget -O .bashrc https://ghproxy.com/https://raw.githubusercontent.com/TimoLin/my_linux/master/script/vnc.service
+    wget -O .bashrc https://ghproxy.com/https://raw.githubusercontent.com/TimoLin/my_linux/master/script/bashrc
 fi
 
 # OpenFoam
