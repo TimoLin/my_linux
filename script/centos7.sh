@@ -1,7 +1,8 @@
 # CentOS Environment deployment
 
-# 1. Change Software source and update
+# Run under Root user
 if (( $EUID == 0 )); then
+    # 1. Change Software source and update
     ## Base repo
     sed -e 's|^mirrorlist=|#mirrorlist=|g' \
         -e 's|^#baseurl=http://mirror.centos.org/centos|baseurl=https://mirrors.ustc.edu.cn/centos|g' \
@@ -34,22 +35,26 @@ if (( $EUID == 0 )); then
     ## Set firewall for vnc port
     firewall-cmd --permanent --zone=public --add-port=5901-5905/tcp
     firewall-cmd --reload
+
+    # OpenFoam enviroment
+    #yum groupinstall 'Development Tools' --setopt=group_package_types=mandatory,default,optional
+    #yum install -y environment-modules
+    #yum install -y openmpi openmpi-devel zlib-devel gstreamer-plugins-base-devel \
+    #libXext-devel libGLU-devel libXt-devel libXrender-devel libXinerama-devel libpng-devel \
+    #libXrandr-devel libXi-devel libXft-devel libjpeg-turbo-devel libXcursor-devel \
+    #readline-devel ncurses-devel python python-devel cmake qt-devel qt-assistant \
+    #mpfr-devel gmp-devel
 fi
 
-# 3. Fetch bashrc
+# Run under Normal user
 if (( $EUID != 0 )); then
+    # 3. Fetch bashrc
     cd $HOME
     # get bashrc
     wget -O .bashrc https://ghproxy.com/https://raw.githubusercontent.com/TimoLin/my_linux/master/script/bashrc
 fi
 
-# OpenFoam
-#yum groupinstall 'Development Tolls' --setopt=group_package_types=mandatory,default,optional
-
-#yum install -y environment-modules
-
-#yum install openmpi openmpi-devel zlib-devel gstreamer-plugins-base-devel \
-#libXext-devel libGLU-devel libXt-devel libXrender-devel libXinerama-devel libpng -devel \
-#libXrandr-devel libXi-devel libXft-devel libjpeg-turbo-devel libXcursor-devel \
-#readline-devel ncurses-devel python python-devel cmake qt-devel qt-assistant \
-#mpfr-devel gmp-devel
+# Tips for Ansys 22R1 licensing problem
+# copy crack file to installation folder
+# Then run the following command
+#chown $USER -R /usr/ansys_inc/shared_files
