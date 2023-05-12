@@ -1,0 +1,20 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+
+# Ansys Fluent
+export ANSYSLIC_DIR=/usr/ansys_inc/shared_files/licensing
+export DYNARDO_LICENSE_FILE=/usr/ansys_inc/dynardo_SSQ.dat
+export OPTISLANG_FORCE_LICENSE=DYNARDO
+export PATH=/usr/ansys_inc/v221/fluent/bin:$PATH
+
+# Tecplot
+alias tecplot='/usr/local/tecplot/360ex_2017r2/bin/tec360 -mesa'
